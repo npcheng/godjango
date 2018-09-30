@@ -1,0 +1,15 @@
+{% include "base.html" %}
+<body>
+<h2>wocao</h2>
+
+{% block content %}
+
+    <h2>books</h2>
+    <ul>
+            {% for book in object_list %}
+            <li>{{ book.title }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+</body>
+</html>
