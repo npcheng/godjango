@@ -39,20 +39,18 @@ class PublisherBookList(ListView):
 
     def get_queryset(self):
         print(self.__dict__)
-        print self.args
+        # print var = self.args
         self.publisher = get_object_or_404(Publisher, name=self.args[0])
         return Book.objects.filter(publisher=self.publisher)
 
 from django.utils import timezone
 from django.views.generic.detail import DetailView
 
-from articles.models import Article
-
-class ArticleDetailView(DetailView):
-
-    model = Article
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['now'] = timezone.now()
-        return context
+# class ArticleDetailView(DetailView):
+#
+#     model = Article
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['now'] = timezone.now()
+#         return context

@@ -38,10 +38,3 @@ class Book(models.Model):
     def __unicode__(self):              # __unicode__ on Python 2
         return self.name
 
-
-
-class Author(models.Model):
-    name = models.CharField(max_length=200)
-
-    def get_absolute_url(self):
-        return reverse('author-detail', kwargs={'pk': self.pk})
