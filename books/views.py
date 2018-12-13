@@ -12,10 +12,18 @@ class PublisherList(ListView):
     model = Publisher
     context_object_name = "my_favorite_publishers"
 
-    def get_context_data(self, **kwargs):
-        context = super(PublisherList, self).get_context_data(**kwargs)
-        context['book_list'] = Book.objects.all()
-        return context
+    def get_queryset(self):
+        self.publisher = get_object_or_404(Publisher, name = self.kwargs['publisher'])
+        print "fy"
+        print(self.kwargs)
+        return Book.objects.filter(publisher=self.publisher)
+
+    # def get_context_data(self, **kwargs):
+    #     # context = super(PublisherList, self).get_context_data(**kwargs)
+    #     context = super(PublisherList, self).get_context_data(**kwargs)
+    #
+    #     context['publisher'] = self.publisher
+    #     return context
 
 
 class PublisherDetail(DetailView):
@@ -35,22 +43,18 @@ class AcmeBookList(ListView):
 
 
 class PublisherBookList(ListView):
+
     template_name = 'books/books_by_publisher.html'
 
     def get_queryset(self):
-        print(self.__dict__)
-        # print var = self.args
-        self.publisher = get_object_or_404(Publisher, name=self.args[0])
+        self.publisher = get_object_or_404(Publisher, name=self.kwargs['publisher'])
+        print self.publisher
         return Book.objects.filter(publisher=self.publisher)
 
-from django.utils import timezone
-from django.views.generic.detail import DetailView
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super( PublisherBookList, self).get_context_data(**kwargs)
+        # Add in the publisher
+        context['publisher'] = self.publisher
+        return context
 
-# class ArticleDetailView(DetailView):
-#
-#     model = Article
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['now'] = timezone.now()
-#         return context

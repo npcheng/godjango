@@ -19,6 +19,8 @@ from books.views import PublisherList, PublisherBookList
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^publishers/$', PublisherList.as_view()),
-    url(r'^books/([\w-]+)/$', PublisherBookList.as_view()),
+    # url(r'^publishers/<string:publisher>', PublisherList.as_view()),
+    url(r'^publishers', PublisherList.as_view()),
+    url('books/(?P<publisher>\w+)', PublisherBookList.as_view()),
+    # url(r'^books/([\w-]+)/$', PublisherBookList.as_view()),
 ]
