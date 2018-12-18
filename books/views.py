@@ -24,23 +24,39 @@ class PublisherList(ListView):
         print(self.kwargs)
         return Book.objects.filter(publisher=self.publisher)
 
+    def get_context_data(self, **kwargs):
+        # context = super(PublisherList, self).get_context_data(**kwargs)
+        context = super(PublisherList, self).get_context_data(**kwargs)
+
+        context['publisher'] = self.publisher
+        return context
+
+
+# class PublisherDetail(DetailView):
+#     model = Publisher
+
     # def get_context_data(self, **kwargs):
-    #     # context = super(PublisherList, self).get_context_data(**kwargs)
-    #     context = super(PublisherList, self).get_context_data(**kwargs)
-    #
-    #     context['publisher'] = self.publisher
+    #     print(self.args, self.kwargs)
+    #     context = super(PublisherDetail, self).get_context_data(**kwargs)
+    #     context['book_list'] = Book.objects.all()
     #     return context
 
 
-class PublisherDetail(DetailView):
-    model = Publisher
+class PublisherDetail(SingleObjectMixin, ListView):
+    paginate_by = 2
+    template_name = "books/publisher_detail.html"
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=Publisher.objects.all())
+        print self.object
+        return super(PublisherDetail, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        print(self.args, self.kwargs)
-        context = super(PublisherDetail, self).get_context_data(**kwargs)
-        context['book_list'] = Book.objects.all()
+        context = super(PublisherDetail,self).get_context_data(**kwargs)
+        context["publisher"] = self.object
         return context
 
+    def get_queryset(self):
+        return self.object.book_set.all()
 
 class AcmeBookList(ListView):
     context_object_name = "book_list"
