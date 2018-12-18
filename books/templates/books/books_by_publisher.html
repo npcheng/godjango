@@ -4,10 +4,10 @@
 
 {% block content %}
 
-    <h2>books</h2>
+    <h2>{{ publisher.website }}</h2>
     <ul>
-            {% for book in object_list %}
-            <li>{{ book.title }}</li>
+            {% for book in my_favorite_publishers %}
+            <li>{{  book.title }}</li>
         {% endfor %}
     </ul>
 {% endblock %}

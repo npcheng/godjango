@@ -36,5 +36,5 @@ class Book(models.Model):
     publication_date = models.DateField()
 
     def __unicode__(self):              # __unicode__ on Python 2
-        return self.name
+        return self.title
 
